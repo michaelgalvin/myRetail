@@ -32,6 +32,8 @@ dependencies {
 	compile('org.springframework.boot:spring-boot-starter-web')
 	compile 'org.codehaus.groovy:groovy-all:2.4.13'
 	compile 'org.apache.commons:commons-lang3:3.+'
+	compile "javax.ws.rs:jsr311-api:1.1.1"
+	compile group: 'com.sun.jersey', name: 'jersey-client', version: '1.9.1'
 	testCompile "org.codehaus.groovy.modules.http-builder:http-builder:0.7.1"
 	testCompile 'org.assertj:assertj-core:3.0.0'
 	testCompile('org.springframework.boot:spring-boot-starter-test')

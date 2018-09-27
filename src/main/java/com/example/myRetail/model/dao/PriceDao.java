@@ -4,7 +4,6 @@ import com.datastax.driver.core.Row;
 import com.datastax.driver.core.Session;
 import com.datastax.driver.core.SimpleStatement;
 import com.example.myRetail.model.entity.Price;
-import com.google.common.collect.ImmutableMap;
 import org.springframework.beans.factory.annotation.Autowired;
 
 public class PriceDao {
@@ -29,6 +28,9 @@ public class PriceDao {
         }
         return price;
     }
+
+    /*  Update Cassandra with a new price
+     */
     public void setPrice(int id, Double new_price) {
         Session session = conn.getConnection();
         if (session == null ) {

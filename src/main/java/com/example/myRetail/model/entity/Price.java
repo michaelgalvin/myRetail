@@ -38,7 +38,7 @@ public class Price {
 
         Price p = (Price) obj;
         return this.currency_code.equals(p.currency_code)
-                && this.value == p.value;
+                && this.value.equals( p.value);
     }
 
     @Override

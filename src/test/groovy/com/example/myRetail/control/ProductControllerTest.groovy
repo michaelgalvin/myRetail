@@ -81,9 +81,9 @@ class ProductControllerTest extends Specification {
 
         then:
         notThrown(Exception)
-        response.status == 500
+        response.status == 404
         response.contentType == 'application/json'
-        response.data.message == 'The response from myRetail api was null. Check that you have a valid product id'
+        response.data.message == 'The product id \'1212\' was not found in MyRetail. Please check that you have a valid tcin.'
     }
 
 
