@@ -1,5 +1,8 @@
 package com.example.myRetail.model.entity;
 
+import org.springframework.stereotype.Service;
+
+@Service
 public class Price {
 
     private Double value;
