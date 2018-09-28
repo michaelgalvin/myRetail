@@ -9,8 +9,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
-import javax.ws.rs.Produces;
-
 @Service
 public class ProductService {
     private RestTemplate restTemplate = new RestTemplate();
@@ -26,7 +24,7 @@ public class ProductService {
     public void getProduct(Product product, int id) {
         setProductId(product, id);
         setTitle(product, getTitle(getMyRetailJSON(id)));
-        setPrice(product, id);
+        getPriceFromDao(product, priceDao.getPrice(id));
     }
 
     /*
@@ -66,8 +64,7 @@ public class ProductService {
     /*
     Get the current price from priceDao, then set it in product
      */
-    void setPrice(Product product, int id) {
-        price = priceDao.getPrice(id);
+    void getPriceFromDao(Product product, Price price) {
         product.setCurrent_price(price);
     }
 
