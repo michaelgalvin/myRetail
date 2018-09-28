@@ -33,7 +33,7 @@ public class ProductService {
     Connects to MyRetail.com's API and passes a tcin.
     The API responds with a JSON(String) representation of all the product details.
      */
-    private String getMyRetailJSON(int id) {
+    String getMyRetailJSON(int id) {
         String myRetailJSON;
         try {
             myRetailJSON = restTemplate.getForObject(myRetailURL + id + endURI, String.class);
@@ -47,11 +47,11 @@ public class ProductService {
     Extract the products title from the myRetailJSON response string,
     then set the title in the product object,
      */
-    private void setTitle(Product product, String title) {
+    void setTitle(Product product, String title) {
         product.setName(title);
     }
 
-    private String getTitle(String jsonString) {
+    String getTitle(String jsonString) {
         JSONObject jsonObject = new JSONObject(jsonString);
         return jsonObject.getJSONObject("product").getJSONObject("item").getJSONObject("product_description").getString("title");
     }
@@ -59,14 +59,14 @@ public class ProductService {
     /*
     Set the product id in the product object
      */
-    private void setProductId(Product product, int id) {
+    void setProductId(Product product, int id) {
         product.setId(id);
     }
 
     /*
     Get the current price from priceDao, then set it in product
      */
-    private void setPrice(Product product, int id) {
+    void setPrice(Product product, int id) {
         price = priceDao.getPrice(id);
         product.setCurrent_price(price);
     }
