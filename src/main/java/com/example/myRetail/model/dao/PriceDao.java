@@ -5,11 +5,16 @@ import com.datastax.driver.core.Session;
 import com.datastax.driver.core.SimpleStatement;
 import com.example.myRetail.model.entity.Price;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
+@Service
 public class PriceDao {
+    private Price price;
 
     @Autowired
-    Price price;
+    public PriceDao(Price price) {
+        this.price = price;
+    }
     private CassandraConnection conn = new CassandraConnection();
 
     /* Pull price and currency code from Cassandra keyspace
@@ -26,6 +31,7 @@ public class PriceDao {
             price.setCurrency_code(row.getString("currency_code"));
             price.setValue(row.getDouble("value"));
         }
+        session.close();
         return price;
     }
 
@@ -39,5 +45,7 @@ public class PriceDao {
 
         SimpleStatement cqlStatement = new SimpleStatement("UPDATE price SET value=? WHERE id=?",new_price, id );
         session.execute(cqlStatement);
+
+        session.close();
     }
 }
