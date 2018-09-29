@@ -24,7 +24,7 @@ public class ProductService {
     public void getProduct(Product product, int id) {
         setProductId(product, id);
         setTitle(product, getTitle(getMyRetailJSON(id)));
-        getPriceFromDao(product, priceDao.getPrice(id));
+        setPriceFromDao(product, priceDao.getPrice(id));
     }
 
     /*
@@ -42,13 +42,15 @@ public class ProductService {
     }
 
     /*
-    Extract the products title from the myRetailJSON response string,
-    then set the title in the product object,
+    Set the title in the product object.
      */
     void setTitle(Product product, String title) {
         product.setName(title);
     }
 
+    /*
+    Extract the products title from the myRetailJSON response string
+     */
     String getTitle(String jsonString) {
         JSONObject jsonObject = new JSONObject(jsonString);
         return jsonObject.getJSONObject("product").getJSONObject("item").getJSONObject("product_description").getString("title");
@@ -64,7 +66,7 @@ public class ProductService {
     /*
     Get the current price from priceDao, then set it in product
      */
-    void getPriceFromDao(Product product, Price price) {
+    void setPriceFromDao(Product product, Price price) {
         product.setCurrent_price(price);
     }
 
