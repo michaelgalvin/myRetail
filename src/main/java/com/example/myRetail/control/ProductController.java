@@ -1,5 +1,6 @@
 package com.example.myRetail.control;
 
+import com.example.myRetail.model.entity.Price;
 import com.example.myRetail.model.entity.Product;
 import com.example.myRetail.service.PriceService;
 import com.example.myRetail.service.ProductService;

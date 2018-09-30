@@ -4,9 +4,9 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class Product {
-    int id;
-    String name;
-    Price current_price;
+    private int id;
+    private String name;
+    private Price current_price;
 
     public int getId() {
         return id;

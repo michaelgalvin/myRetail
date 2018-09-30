@@ -5,6 +5,7 @@ import com.example.myRetail.model.entity.Price;
 import com.example.myRetail.model.entity.Product;
 import com.example.myRetail.util.IdNotFoundException;
 import org.json.JSONObject;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
@@ -12,8 +13,12 @@ import org.springframework.web.client.RestTemplate;
 @Service
 public class ProductService {
     private RestTemplate restTemplate = new RestTemplate();
-    private Price price = new Price();
-    private PriceDao priceDao = new PriceDao(price);
+    private PriceDao priceDao;
+
+    @Autowired
+    public ProductService(PriceDao priceDao){
+        this.priceDao = priceDao;
+    }
 
     private static final String myRetailURL = "https://redsky.target.com/v2/pdp/tcin/";
     private static final String endURI = "?excludes=taxonomy,price,promotion,bulk_ship,rating_and_review_reviews,rating_and_review_statistics,question_answer_statistics";
