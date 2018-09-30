@@ -5,17 +5,20 @@ import com.example.myRetail.model.entity.Price;
 import com.example.myRetail.model.entity.Product;
 import com.example.myRetail.util.IdNotFoundException;
 import org.json.JSONObject;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
-import javax.ws.rs.Produces;
-
 @Service
 public class ProductService {
     private RestTemplate restTemplate = new RestTemplate();
-    private Price price = new Price();
-    private PriceDao priceDao = new PriceDao(price);
+    private PriceDao priceDao;
+
+    @Autowired
+    public ProductService(PriceDao priceDao){
+        this.priceDao = priceDao;
+    }
 
     private static final String myRetailURL = "https://redsky.target.com/v2/pdp/tcin/";
     private static final String endURI = "?excludes=taxonomy,price,promotion,bulk_ship,rating_and_review_reviews,rating_and_review_statistics,question_answer_statistics";
@@ -26,14 +29,14 @@ public class ProductService {
     public void getProduct(Product product, int id) {
         setProductId(product, id);
         setTitle(product, getTitle(getMyRetailJSON(id)));
-        setPrice(product, id);
+        setPriceFromDao(product, priceDao.getPrice(id));
     }
 
     /*
     Connects to MyRetail.com's API and passes a tcin.
     The API responds with a JSON(String) representation of all the product details.
      */
-    private String getMyRetailJSON(int id) {
+    String getMyRetailJSON(int id) {
         String myRetailJSON;
         try {
             myRetailJSON = restTemplate.getForObject(myRetailURL + id + endURI, String.class);
@@ -44,14 +47,16 @@ public class ProductService {
     }
 
     /*
-    Extract the products title from the myRetailJSON response string,
-    then set the title in the product object,
+    Set the title in the product object.
      */
-    private void setTitle(Product product, String title) {
+    void setTitle(Product product, String title) {
         product.setName(title);
     }
 
-    private String getTitle(String jsonString) {
+    /*
+    Extract the products title from the myRetailJSON response string
+     */
+    String getTitle(String jsonString) {
         JSONObject jsonObject = new JSONObject(jsonString);
         return jsonObject.getJSONObject("product").getJSONObject("item").getJSONObject("product_description").getString("title");
     }
@@ -59,15 +64,14 @@ public class ProductService {
     /*
     Set the product id in the product object
      */
-    private void setProductId(Product product, int id) {
+    void setProductId(Product product, int id) {
         product.setId(id);
     }
 
     /*
     Get the current price from priceDao, then set it in product
      */
-    private void setPrice(Product product, int id) {
-        price = priceDao.getPrice(id);
+    void setPriceFromDao(Product product, Price price) {
         product.setCurrent_price(price);
     }
 

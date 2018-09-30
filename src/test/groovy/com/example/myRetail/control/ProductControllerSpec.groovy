@@ -9,7 +9,7 @@ import spock.lang.Stepwise
 @Stepwise
 //allows for sequential testing
 
-class ProductControllerTest extends Specification {
+class ProductControllerSpec extends Specification {
     @Shared
     def client = new RESTClient("http://localhost:8080/")
 

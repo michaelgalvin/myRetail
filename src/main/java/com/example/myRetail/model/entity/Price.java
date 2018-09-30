@@ -17,10 +17,12 @@ public class Price {
     }
 
     public String getCurrency_code() {
+
         return currency_code;
     }
 
     public void setCurrency_code(String currency_code) {
+
         this.currency_code = currency_code;
     }
 
@@ -41,7 +43,7 @@ public class Price {
 
         Price p = (Price) obj;
         return this.currency_code.equals(p.currency_code)
-                && this.value.equals( p.value);
+                && this.value.equals(p.value);
     }
 
     @Override
